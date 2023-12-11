@@ -64,9 +64,7 @@
     (jdbc/execute! db-spec (ticket/insert-tickets ticket-type-id tickets price))
     (respond-201
      {"ticket_type_id" ticket-type-id
-      "tickets" (set/rename-keys
-                 tickets
-                 {:ticket-id "ticket_id"})})))
+      "tickets" (map #(set/rename-keys % {:ticket-id "ticket_id"}) tickets)})))
 
 (defn create-tickets-handler [db-spec uid event-id ticket-req]
   (and
