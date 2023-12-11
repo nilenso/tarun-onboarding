@@ -2,6 +2,7 @@
   (:require [next.jdbc :as jdbc]
             [next.jdbc.result-set :as rs]
             [clojure.spec.alpha :as s]
+            [clojure.set :as set]
             [swift-ticketing.db.event :as event]
             [swift-ticketing.specs :as specs]
             [swift-ticketing.db.ticket :as ticket]
@@ -63,7 +64,9 @@
     (jdbc/execute! db-spec (ticket/insert-tickets ticket-type-id tickets price))
     (respond-201
      {"ticket_type_id" ticket-type-id
-      "tickets" tickets})))
+      "tickets" (set/rename-keys
+                 tickets
+                 {:ticket-id "ticket_id"})})))
 
 (defn create-tickets-handler [db-spec uid event-id ticket-req]
   (and
