@@ -42,7 +42,6 @@
         response (-> (post-request "/event" request)
                      (mock/cookie "uid" test-user-id)
                      app)]
-    (println response)
     {:request request
      :status (:status response)
      :response (response-to-json response)}))

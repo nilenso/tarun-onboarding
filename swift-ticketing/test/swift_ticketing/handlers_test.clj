@@ -11,7 +11,9 @@
             [swift-ticketing.utils :as utils]
             [swift-ticketing.db.event :as db-event]
             [swift-ticketing.db.ticket :as ticket]
-            [swift-ticketing.client :as client]))
+            [swift-ticketing.client :as client]
+            [swift-ticketing.db.booking :as booking]
+            [swift-ticketing.db :as db]))
 
 (use-fixtures :each fixtures/clear-tables)
 
