@@ -27,8 +27,6 @@
    (let [{:keys [server-spec test-user-id]} fixtures/test-env]
      (http/get (mk-url server-spec url) {:query-params query-params
                                          :cookies (uid-cookie test-user-id)
-                                         ; :as :json
-
                                          :throw-exceptions false}))))
 
 (defn- response-to-json [response]
