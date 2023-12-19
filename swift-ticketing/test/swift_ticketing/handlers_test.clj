@@ -4,7 +4,7 @@
             [next.jdbc :as jdbc]
             [clojure.data.json :as json]
             [next.jdbc.result-set :as rs]
-            [clojure.walk :refer [keywordize-keys stringify-keys]]
+            [clojure.walk :refer [keywordize-keys]]
             [swift-ticketing.app :refer [swift-ticketing-app]]
             [swift-ticketing.fixtures :as fixtures]
             [swift-ticketing.factory :as factory]
@@ -12,11 +12,8 @@
             [swift-ticketing.db.event :as db-event]
             [swift-ticketing.db.ticket :as ticket]
             [swift-ticketing.client :as client]
-            [clojure.test :as t]
-            [swift-ticketing.db.query :as query]
-            [swift-ticketing.db.booking :as db-booking]))
+            ))
 
-(use-fixtures :once fixtures/setup-test-system)
 (use-fixtures :each fixtures/clear-tables)
 
 (deftest create-event-test
@@ -230,5 +227,3 @@
       ;; wait for status to change
       (Thread/sleep 2000)
       (is (= (query/get-booking-status booking-id) db-booking/CONFIRMED)))))
-
-(run-test make-payment-test)
