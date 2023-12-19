@@ -24,7 +24,9 @@
 
 (defn run-with-test-system [tests]
   ;; Init db connection pool, start workers
+  (println "start-test-system")
   (start-test-system)
+  (println "after start-test-system")
   (let [db (:database swift-ticketing-test-system)
         http-server (:app swift-ticketing-test-system)
         db-config (:db-config db)
