@@ -1,26 +1,12 @@
 (ns swift-ticketing-ui.booking
   (:require
-   [ajax.core :as ajax]
    [reagent.core :as r]
    [clojure.math :as math]
    [accountant.core :as accountant]
-   [swift-ticketing-ui.config :refer [API_URL]]
+   [swift-ticketing-ui.client :as client]
+   [swift-ticketing-ui.theme :as theme]
    [camel-snake-kebab.extras :as cske]
    [camel-snake-kebab.core :as csk]))
-
-(defn get-url [url handler]
-  (ajax/ajax-request
-   {:uri url
-    :method :get
-    :handler handler
-    :format (ajax/json-request-format)
-    :response-format (ajax/json-response-format {:keywords? true})}))
-
-(defn get-booking-status [url handler]
-  (get-url url handler))
-
-(defn get-booking-tickets [url handler]
-  (get-url url handler))
 
 (defn booking-page [booking-id]
   (let [loading (r/atom true)
@@ -30,21 +16,21 @@
                     (do
                       (reset! loading false)
                       (reset! booking-status
-                              (:booking-status (cske/transform-keys csk/->kebab-case-keyword response))))
-                    (do (js/console.log "Response else: ", response)
-                        (reset! loading false))))]
+                              (:booking-status
+                               (cske/transform-keys csk/->kebab-case-keyword
+                                                    response))))
+                    (reset! loading false)))]
     (fn []
       @booking-status
-      (do
-        (when (or (= "InProcess" @booking-status)
-                  (= "PaymentPending" @booking-status)
-                  (nil? @booking-status))
-          (js/setTimeout
-           (fn []
-             (get-booking-status
-              (str API_URL "/booking/" booking-id "/status")
-              handler))
-           3000))
+      (when (or (= "InProcess" @booking-status)
+                (= "PaymentPending" @booking-status)
+                (nil? @booking-status))
+        (js/setTimeout
+         (fn []
+           (client/http-get
+            (str "/booking/" booking-id "/status")
+            handler))
+         500)))))
 
 (defn display-time [time]
   (let [seconds (math/floor (/ time 1000))
@@ -72,7 +58,7 @@
                                          (js/Date.)))
                              1000))
                           (accountant/navigate! (str "/booking/" booking-id))))]
-          (get-booking-tickets (str API_URL "/booking/" booking-id "/ticket") handler)))
+          (client/http-get (str "/booking/" booking-id "/ticket") handler)))
       :reagent-render
       (fn []
         @remaining-time
