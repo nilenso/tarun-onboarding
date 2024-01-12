@@ -37,6 +37,9 @@
 (secretary/defroute "/" []
   (reset! page (home-page)))
 
+(secretary/defroute "/stats" []
+  (reset! page (user/stats-page)))
+
 (secretary/defroute "/event" []
   (reset! page (event/events-page)))
 

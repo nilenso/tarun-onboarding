@@ -44,3 +44,49 @@
                                   "/user"
                                   handler
                                   {:name @user-name})} "Login"]]]]]))))
+
+(defn display-user-stats [stats]
+  (let [cell (fn [content]
+               [:td {:class "whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0"}
+                content])
+        header (fn [content]
+                 [:th {:scope "col"
+                       :class "py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"}
+                  content])
+        render-row
+        (fn [stat]
+          (js/console.log stat)
+          [:tr
+           (cell (:name stat))
+           (cell (clojure.string/join ", " (:ticket-name stat)))])]
+    [:div
+     [:table {:class "min-w-full divide-y divide-gray-300"}
+      [:thead
+       [:tr
+        (header "Name")]
+       (header "Tickets")]
+      [:tbody {:class "divide-y divide-gray-200"}
+       (for [stat stats]
+         ^{:key (get stat "name")} (render-row stat))]]]))
+
+(defn stats-page []
+  (let [loading (r/atom true)
+        stats (r/atom nil)
+        booking-id (r/atom nil)]
+    (r/create-class
+     {:display-name "stats-page"
+      :component-did-mount
+      (fn []
+        (let [handler (fn [[ok response]]
+                        (if ok
+                          (do
+                            (reset! loading false)
+                            (reset! stats
+                                    (cske/transform-keys csk/->kebab-case-keyword
+                                                         response)))
+                          (js/alert "Something went wrong while fetching stats!")))]
+          (client/http-get "/user/stats" handler)))
+      :reagent-render (fn []
+                        (if @loading
+                          [:div "Loading..."]
+                          [display-user-stats @stats]))})))
