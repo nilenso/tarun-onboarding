@@ -71,6 +71,10 @@
     [:ticket-type-id :string-uuid]
     [:quantity pos-int?]]])
 
+(def CreateUserParams
+  [:map
+   [:name :non-empty-string]])
+
 (def EventId :string-uuid)
 (def BookingId :string-uuid)
 (def TicketTypeId :string-uuid)

@@ -5,6 +5,7 @@
    [swift-ticketing.model.event :as event]
    [swift-ticketing.specs :as specs]
    [clojure.walk :refer [keywordize-keys]]
+   [swift-ticketing.model.user :as user]
    [swift-ticketing.model.ticket :as ticket]
    [swift-ticketing.model.booking :as booking]))
 
@@ -116,3 +117,11 @@
         on-success (fn []
                      (respond-200 (ticket/get-tickets-by-booking-id db-spec booking-id)))]
     (validate-req booking-id specs/BookingId on-success)))
+
+(defn create-user-handler [db-spec {:keys [body]}]
+  (let [user-id (random-uuid)
+        on-success (fn []
+                     (user/create-user db-spec user-id body)
+                     (respond-201
+                      {:user-id user-id}))]
+    (validate-req body specs/CreateUserParams on-success)))
