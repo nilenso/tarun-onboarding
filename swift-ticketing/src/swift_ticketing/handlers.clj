@@ -125,3 +125,9 @@
                      (respond-201
                       {:user-id user-id}))]
     (validate-req body specs/CreateUserParams on-success)))
+
+(defn get-user-stats-handler [db-spec]
+  (let [pg-array-to-vec #(into [] (.getArray %))
+        pg-results (user/get-user-stats db-spec)
+        results (map #(update % :ticket-name pg-array-to-vec) pg-results)]
+    (respond-200 results)))
