@@ -30,6 +30,10 @@
       (handlers/cancel-booking-handler message-queue request))
     (GET "/booking/:booking-id/ticket" request
       (handlers/get-tickets-by-booking-id-handler db-spec request))
+    (POST "/user" request
+      (handlers/create-user-handler db-spec request))
+    (GET "/user/stats" request
+      (handlers/get-user-stats-handler db-spec))
     (route/not-found "Not Found")))
 
 (defn- wrap-response-kebab [handler]
