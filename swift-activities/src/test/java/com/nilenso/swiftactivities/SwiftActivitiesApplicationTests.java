@@ -1,10 +1,10 @@
-package com.nilenso.TracMe;
+package com.nilenso.swiftactivities;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TracMeApplicationTests {
+class SwiftActivitiesApplicationTests {
 
 	@Test
 	void contextLoads() {

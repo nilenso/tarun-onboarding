@@ -1,13 +1,13 @@
-package com.nilenso.TracMe;
+package com.nilenso.swiftactivities;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TracMeApplication {
+public class SwiftActivitiesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TracMeApplication.class, args);
+		SpringApplication.run(SwiftActivitiesApplication.class, args);
 	}
 
 }
