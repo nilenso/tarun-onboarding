@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:15
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./.postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+    networks:
+      - swift_network
+
+networks:
+  swift_network:
+    driver: bridge
