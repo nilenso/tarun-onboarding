@@ -1,12 +1,14 @@
 # DB Schema
 
-| User | | |
+## User
+| user_account | | |
 |------|----|---|
 |user_id| uuid| |
 |created_at|timestamptz| default now() |
 |updated_at|timestamptz| default now() |
 
-|Activity| | |
+## Activity
+|activity| | |
 |--------|----|---|
 |activity_id | uuid | |
 |name | string | optional |
@@ -17,7 +19,9 @@
 |created_at|timestamptz| default now() |
 |updated_at|timestamptz| default now() |
 
-| ActivityGeolocationData | | |
+## ActivityGeolocationData
+Table to store geolocation data captured from device while performing `activity`
+| activity_geolocation_data | | |
 |-------|-----|---|
 |geolocation_data_id | serial | |
 |activity_id | uuid | |
@@ -34,7 +38,9 @@
 }
 ```
 
-| ActivityInsights | | |
+## ActivityInsights
+This stores the computed data for an activity. 
+| activity_insights | | |
 |------|---|---|
 |activity_insight_id | uuid | |
 |activity_id | uuid | |
@@ -49,8 +55,3 @@
 , average_speed: in m/s 
 , lowest_speed: in m/s}
 ```
-
-|duratiom | int |
-| average_speed | double |
-| top_speed | double |
-| lowest_speed | double |
