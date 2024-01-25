@@ -23,13 +23,13 @@ CREATE TABLE swift_activities.activity (
 );
 
 CREATE TABLE swift_activities.activity_geolocation_data (
-	activity_geo_data_id serial NOT NULL,
+	geolocation_data_id serial NOT NULL,
 	activity_id uuid NOT NULL,
 	data json NOT NULL,
 	"timestamp" timestamptz NULL,
 	created_at timestamptz DEFAULT now(),
-	CONSTRAINT activity_log_pk PRIMARY KEY (activity_log_id),
-	CONSTRAINT activity_log_fk FOREIGN KEY (activity_id) REFERENCES swift_activities.activity(activity_id)
+	CONSTRAINT activity_geolocation_data_pk PRIMARY KEY (geolocation_data_id),
+	CONSTRAINT activity_geolocation_data_fk FOREIGN KEY (activity_id) REFERENCES swift_activities.activity(activity_id)
 );
 
 CREATE TABLE swift_activities.activity_insights (
