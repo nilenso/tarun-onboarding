@@ -30,4 +30,10 @@ public class ActivityController {
         response.put("activityId", activity.getActivityId());
         return response;
     }
+
+    @PostMapping("/{activityId}/end")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void endActivity(@PathVariable UUID activityId) {
+        activityService.endActivity(activityId);
+    }
 }
