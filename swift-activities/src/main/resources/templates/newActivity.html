@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Activity</title>
+</head>
+<body>
+    <script>
+        const startRun = async () => {
+            try {
+                const options = {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({type: "Running"})
+                };
+                const response = await fetch("/api/activity", options);
+                if (!response.ok) throw new Error(response.status);
+
+                const json = await response.json();
+                window.location.href = `/activity/${json['activityId']}`;
+            } catch (error) {
+              alert(error);
+            }
+
+        }
+    </script>
+    <form id="new-activity" action="/api/activity" method="post">
+        <button type="button" onclick="startRun()">Start Run</button>
+    </form>
+</body>
+</html>
