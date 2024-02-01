@@ -12,4 +12,12 @@ public class ActivityViewController {
     public String startActivityView() {
         return "newActivity";
     }
+
+    @GetMapping("/activity/{activityId}")
+    public String activityView(@PathVariable UUID activityId,
+                               Model model) {
+        model.addAttribute("activityId", activityId);
+        return "activity";
+    }
+
 }

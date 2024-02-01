@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Activity</title>
+</head>
+<body>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const activityId = /*[[${activityId}]]*/ '';
+        /*]]>*/
+    </script>
+    <script>
+        const endRun = async () => {
+            try {
+                const options = {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"}
+                };
+                const response = await fetch(`/api/activity/${activityId}/end`, options);
+                if (!response.ok) throw new Error(response.status);
+
+            } catch (error) {
+              alert(error);
+            }
+
+        }
+    </script>
+    <form id="new-activity" action="/api/activity" method="post">
+        <button type="button" onclick="endRun()">End Run</button>
+    </form>
+</body>
+</html>
