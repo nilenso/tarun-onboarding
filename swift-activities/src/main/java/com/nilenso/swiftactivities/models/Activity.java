@@ -1,6 +1,7 @@
 package com.nilenso.swiftactivities.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "activity")
+@DynamicInsert
 public class Activity {
     public static enum ActivityType {
         Running,
