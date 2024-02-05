@@ -1,6 +1,11 @@
-CREATE SCHEMA swift_activities;
+CREATE SCHEMA IF NOT EXISTS swift_activities;
 
-CREATE TYPE swift_activities.activity_type AS ENUM('Running', 'Swimming', 'Cycling');
+do $$
+begin
+  CREATE TYPE swift_activities.activity_type AS ENUM('Running', 'Swimming', 'Cycling');
+exception
+  when duplicate_object then null;
+end$$;
 
 CREATE TABLE swift_activities.user_account (
 	user_id uuid NOT NULL,
@@ -26,7 +31,7 @@ CREATE TABLE swift_activities.activity_geolocation_data (
 	geolocation_data_id uuid NOT NULL,
 	activity_id uuid NOT NULL,
 	data json NOT NULL,
-	recorded_at timestamptz NULL,
+	recorded_at timestamptz NOT NULL,
 	created_at timestamptz DEFAULT now(),
 	CONSTRAINT activity_geolocation_data_pk PRIMARY KEY (geolocation_data_id),
 	CONSTRAINT activity_geolocation_data_fk FOREIGN KEY (activity_id) REFERENCES swift_activities.activity(activity_id)

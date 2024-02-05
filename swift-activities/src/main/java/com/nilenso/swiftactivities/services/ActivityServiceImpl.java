@@ -45,6 +45,7 @@ public class ActivityServiceImpl implements ActivityService {
         var geolocationData = new ActivityGeolocationData();
         geolocationData.setData(geolocationDto);
         geolocationData.setActivityId(activityId);
+        geolocationData.setRecordedAt(geolocationDto.recordedAt());
         geolocationDataRepository.save(geolocationData);
     }
 }

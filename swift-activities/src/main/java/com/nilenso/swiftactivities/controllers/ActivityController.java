@@ -3,9 +3,7 @@ package com.nilenso.swiftactivities.controllers;
 import com.nilenso.swiftactivities.models.dtos.GeolocationDto;
 import com.nilenso.swiftactivities.services.ActivityService;
 import jakarta.validation.Valid;
-import com.nilenso.swiftactivities.models.Activity;
 import com.nilenso.swiftactivities.models.dtos.StartActivityDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

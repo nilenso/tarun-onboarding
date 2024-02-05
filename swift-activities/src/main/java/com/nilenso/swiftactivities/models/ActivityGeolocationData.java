@@ -3,6 +3,7 @@ package com.nilenso.swiftactivities.models;
 import com.nilenso.swiftactivities.models.dtos.GeolocationDto;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Type;
 
 import java.math.BigInteger;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "activity_geolocation_data")
+@DynamicInsert
 public class ActivityGeolocationData {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
