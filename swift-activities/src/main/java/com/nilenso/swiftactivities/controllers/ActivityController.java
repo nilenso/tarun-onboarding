@@ -31,6 +31,13 @@ public class ActivityController {
         return response;
     }
 
+    @PostMapping("/{activityId}/log")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void logGeolocationData(@PathVariable UUID activityId,
+                                   @Valid @RequestBody GeolocationDto geolocationDto) {
+        activityService.logGeolocationData(activityId, geolocationDto);
+    }
+
     @PostMapping("/{activityId}/end")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void endActivity(@PathVariable UUID activityId) {

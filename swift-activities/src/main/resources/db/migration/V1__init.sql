@@ -23,10 +23,10 @@ CREATE TABLE swift_activities.activity (
 );
 
 CREATE TABLE swift_activities.activity_geolocation_data (
-	geolocation_data_id serial NOT NULL,
+	geolocation_data_id uuid NOT NULL,
 	activity_id uuid NOT NULL,
 	data json NOT NULL,
-	"timestamp" timestamptz NULL,
+	recorded_at timestamptz NULL,
 	created_at timestamptz DEFAULT now(),
 	CONSTRAINT activity_geolocation_data_pk PRIMARY KEY (geolocation_data_id),
 	CONSTRAINT activity_geolocation_data_fk FOREIGN KEY (activity_id) REFERENCES swift_activities.activity(activity_id)

@@ -1,7 +1,10 @@
 package com.nilenso.swiftactivities.services;
 
 import com.nilenso.swiftactivities.models.Activity;
+import com.nilenso.swiftactivities.models.ActivityGeolocationData;
+import com.nilenso.swiftactivities.models.dtos.GeolocationDto;
 import com.nilenso.swiftactivities.models.dtos.StartActivityDto;
+import com.nilenso.swiftactivities.repositories.ActivityGeolocationDataRepository;
 import com.nilenso.swiftactivities.repositories.ActivityRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -12,9 +15,11 @@ import java.util.UUID;
 @Service
 public class ActivityServiceImpl implements ActivityService {
     private final ActivityRepository activityRepository;
+    private final ActivityGeolocationDataRepository geolocationDataRepository;
 
-    public ActivityServiceImpl(ActivityRepository activityRepository) {
+    public ActivityServiceImpl(ActivityRepository activityRepository, ActivityGeolocationDataRepository geolocationDataRepository) {
         this.activityRepository = activityRepository;
+        this.geolocationDataRepository = geolocationDataRepository;
     }
 
     @Override
@@ -33,5 +38,13 @@ public class ActivityServiceImpl implements ActivityService {
                 .orElseThrow(() -> new EntityNotFoundException("Couldn't find the activity"));
         existingActivity.setEndTime(Instant.now());
         activityRepository.save(existingActivity);
+    }
+
+    @Override
+    public void logGeolocationData(UUID activityId, GeolocationDto geolocationDto) {
+        var geolocationData = new ActivityGeolocationData();
+        geolocationData.setData(geolocationDto);
+        geolocationData.setActivityId(activityId);
+        geolocationDataRepository.save(geolocationData);
     }
 }
