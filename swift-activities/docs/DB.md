@@ -51,7 +51,6 @@ This stores the computed data for an activity.
 ```
 { duration: in seconds
 , distance: in meters
-, top_speed: in m/s 
-, average_speed: in m/s 
-, lowest_speed: in m/s}
+, max_speed: in m/s 
+, average_speed: in m/s}
 ```
