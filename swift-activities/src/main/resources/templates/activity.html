@@ -11,6 +11,7 @@
     </script>
     <script>
         let watchId;
+        let intervalId;
         const recordGeolocation = async (data) => {
             let geolocationData = {latitude: data.coords.latitude,
                                    longitude: data.coords.longitude,
@@ -42,7 +43,9 @@
         };
         const recordRun = () => {
             const onError = (err) => alert(err);
-            watchId = navigator.geolocation.watchPosition(recordGeolocation, onError);
+            intervalId = setInterval(() => {
+                navigator.geolocation.getCurrentPosition(recordGeolocation, onError);
+            }, 2000);
         };
         const showStats = () => {
             let displayDiv = document.getElementById("display"),
@@ -51,7 +54,7 @@
             endActivityDiv.remove();
         };
         const endRun = async () => {
-            navigator.geolocation.clearWatch(watchId);
+            clearInterval(intervalId);
             try {
                 const options = {
                     method: "POST",
