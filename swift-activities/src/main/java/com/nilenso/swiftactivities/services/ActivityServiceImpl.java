@@ -1,5 +1,6 @@
 package com.nilenso.swiftactivities.services;
 
+import com.nilenso.swiftactivities.exception.UnprocessableEntityException;
 import com.nilenso.swiftactivities.models.Activity;
 import com.nilenso.swiftactivities.models.ActivityGeolocationData;
 import com.nilenso.swiftactivities.models.dtos.GeolocationDto;
@@ -36,6 +37,9 @@ public class ActivityServiceImpl implements ActivityService {
     public void endActivity(UUID activityId) {
         Activity existingActivity = activityRepository.findById(activityId)
                 .orElseThrow(() -> new EntityNotFoundException("Couldn't find the activity"));
+        if (existingActivity.getEndTime() != null) {
+            throw new UnprocessableEntityException("This activity has already ended");
+        }
         existingActivity.setEndTime(Instant.now());
         activityRepository.save(existingActivity);
     }
