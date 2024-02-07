@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.flywaydb.flyway' version '9.22.3'
 }
 
 group = 'com.nilenso'
@@ -26,6 +27,15 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.testcontainers:postgresql'
+}
+
+flyway {
+	ext.flywayProps = new Properties()
+	flywayProps.load(new FileInputStream(this.projectDir.absolutePath + "/src/main/resources/application.properties"))
+	url = flywayProps["spring.datasource.url"]
+	user = flywayProps["spring.datasource.username"]
+	password = flywayProps["spring.datasource.password"]
+	schemas = [flywayProps["spring.datasource.schema"]]
 }
 
 tasks.named('test') {
