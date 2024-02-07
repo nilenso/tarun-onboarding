@@ -5,12 +5,27 @@
 </head>
 <body>
     <script>
+        const getTimeOfDay = () => {
+            const now = new Date();
+            const hour = now.getHours();
+
+            if (hour < 12) {
+                return "Morning";
+            } else if (hour < 17) {
+                return "Afternoon";
+            } else if (hour < 20) {
+                return "Evening";
+            } else {
+                return "Night";
+            }
+        }
         const startRun = async () => {
             try {
                 const options = {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({type: "Running"})
+                    body: JSON.stringify({type: "Running",
+                                          name: getTimeOfDay() + " Run"})
                 };
                 const response = await fetch("/api/activity", options);
                 if (!response.ok) throw new Error(response.status);
