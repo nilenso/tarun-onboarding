@@ -1,5 +1,6 @@
 package com.nilenso.swiftactivities.controllers;
 
+import com.nilenso.swiftactivities.models.dtos.ActivityInsightsDto;
 import com.nilenso.swiftactivities.models.dtos.GeolocationDto;
 import com.nilenso.swiftactivities.services.ActivityService;
 import jakarta.validation.Valid;
@@ -40,5 +41,10 @@ public class ActivityController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void endActivity(@PathVariable UUID activityId) {
         activityService.endActivity(activityId);
+    }
+
+    @GetMapping("/{activityId}/insights")
+    public ActivityInsightsDto activityInsights(@PathVariable UUID activityId) {
+        return activityService.activityInsights(activityId);
     }
 }

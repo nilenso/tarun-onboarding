@@ -1,6 +1,7 @@
 package com.nilenso.swiftactivities.services;
 
 import com.nilenso.swiftactivities.models.Activity;
+import com.nilenso.swiftactivities.models.dtos.ActivityInsightsDto;
 import com.nilenso.swiftactivities.models.dtos.GeolocationDto;
 import com.nilenso.swiftactivities.models.dtos.StartActivityDto;
 
@@ -12,4 +13,6 @@ public interface ActivityService {
     public void endActivity(UUID activityId);
 
     public void logGeolocationData(UUID activityId, GeolocationDto geolocationDto);
+
+    public ActivityInsightsDto activityInsights(UUID activityId);
 }

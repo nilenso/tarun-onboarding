@@ -38,11 +38,10 @@ CREATE TABLE swift_activities.activity_geolocation_data (
 );
 
 CREATE TABLE swift_activities.activity_insights (
-	activity_insight_id uuid NOT NULL,
 	activity_id uuid NOT NULL,
-	stats bytea NOT NULL,
+	stats json NOT NULL,
 	created_at timestamptz DEFAULT now(),
-	CONSTRAINT activity_insights_pk PRIMARY KEY (activity_insight_id),
+	CONSTRAINT activity_insights_pk PRIMARY KEY (activity_id),
 	CONSTRAINT activity_insights_fk FOREIGN KEY (activity_id) REFERENCES swift_activities.activity(activity_id)
 );
 
