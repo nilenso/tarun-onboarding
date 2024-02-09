@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Activity</title>
+</head>
+<body>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const activityId = /*[[${activityId}]]*/ '';
+        /*]]>*/
+    </script>
+    <script>
+        let watchId;
+        let intervalId;
+        const recordGeolocation = async (data) => {
+            let geolocationData = {latitude: data.coords.latitude,
+                                   longitude: data.coords.longitude,
+                                   accuracy: data.coords.accuracy,
+                                   recordedAt: new Date(data.timestamp).toISOString()};
+            let displayDiv = document.getElementById("display"),
+                lat = document.createElement("p"),
+                lng = document.createElement("p"),
+                accuracy = document.createElement("p");
+            lat.textContent = geolocationData.latitude;
+            lng.textContent = geolocationData.longitude;
+            accuracy.textContent = geolocationData.accuracy;
+            displayDiv.appendChild(lat);
+            displayDiv.appendChild(lng);
+            displayDiv.appendChild(accuracy);
+
+            try {
+                const options = {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(geolocationData)
+                };
+                const response = await fetch(`/api/activity/${activityId}/log`, options);
+                if (!response.ok) throw new Error(response.status);
+
+            } catch (error) {
+              alert(error);
+            }
+        };
+        const recordRun = () => {
+            const onError = (err) => alert(err);
+            intervalId = setInterval(() => {
+                navigator.geolocation.getCurrentPosition(recordGeolocation, onError);
+            }, 2000);
+        };
+        const showStats = () => {
+            let displayDiv = document.getElementById("display"),
+                endActivityDiv = document.getElementById("end-activity");
+            displayDiv.innerHTML = "Stats";
+            endActivityDiv.remove();
+        };
+        const endRun = async () => {
+            clearInterval(intervalId);
+            try {
+                const options = {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"}
+                };
+                const response = await fetch(`/api/activity/${activityId}/end`, options);
+                if (!response.ok) throw new Error(response.status);
+                showStats();
+
+            } catch (error) {
+              alert(error);
+            }
+        };
+        recordRun();
+    </script>
+    <div id="display"></div>
+    <form id="end-activity" action="/api/activity" method="post">
+        <button type="button" onclick="endRun()">Stop Run</button>
+    </form>
+</body>
+</html>

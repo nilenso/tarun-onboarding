@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.flywaydb.flyway' version '9.22.3'
 }
 
 group = 'com.nilenso'
@@ -18,9 +19,23 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation group: 'io.hypersistence', name: 'hypersistence-utils-hibernate-63', version: '3.7.1'
+	implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
 	implementation 'org.flywaydb:flyway-core'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.testcontainers:postgresql'
+}
+
+flyway {
+	ext.flywayProps = new Properties()
+	flywayProps.load(new FileInputStream(this.projectDir.absolutePath + "/src/main/resources/application.properties"))
+	url = flywayProps["spring.datasource.url"]
+	user = flywayProps["spring.datasource.username"]
+	password = flywayProps["spring.datasource.password"]
+	schemas = [flywayProps["spring.datasource.schema"]]
 }
 
 tasks.named('test') {
